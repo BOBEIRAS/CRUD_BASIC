@@ -1,58 +1,99 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CRUD Basic — Laravel 13 Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern and robust basic CRUD application built on top of the **Laravel 13** framework, utilizing **Vite**, **SQLite**, and **concurrent background worker orchestration** for standard, streamlined development.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Getting Started
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The project has been configured with powerful Composer commands that bundle multiple operations into single commands to dramatically simplify installation and execution.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Prerequisites
+Make sure your development machine has the following tools installed:
+- **PHP 8.3+**
+- **Composer**
+- **Node.js 20+ & NPM**
+- **SQLite** (or another supported database engine)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🛠️ Local Installation & Setup
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Set up the entire project database, environment configuration, PHP dependencies, and frontend assets with a single command:
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer run setup
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+This automated script will:
+1. Run `composer install` to fetch server-side dependencies.
+2. Verify or create your local configuration by copying `.env.example` to `.env`.
+3. Generate a secure, unique `APP_KEY` for password hashing and session encryption.
+4. Execute database migrations (`php artisan migrate --force`).
+5. Install NPM packages and compile production frontend assets with Vite (`npm run build`).
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🏃 Run & Usage
 
-## Code of Conduct
+Start the complete development stack (Web Server, Queue Worker, and Vite Live Reload Server) concurrently in a single terminal window:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+composer run dev
+```
 
-## Security Vulnerabilities
+The server will be reachable at:
+- 🌐 **Web Server**: [http://localhost:8000](http://localhost:8000)
+- ⚡ **Vite Dev Server (HMR)**: [http://localhost:5173](http://localhost:5173)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 🐳 Docker Containerization
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+To run the entire application inside a containerized sandbox without installing PHP, Node.js, or SQLite locally:
+
+### 1. Build and Start the Environment
+```bash
+docker compose up --build
+```
+
+This command builds the development environment and spins up the container.
+
+### 2. Run Setup inside the Container (First Time)
+To run migrations and prepare the key in the container environment:
+```bash
+docker compose exec app composer run setup
+```
+
+### 3. Ports & Volume Mounting
+- **App URL**: [http://localhost:8000](http://localhost:8000)
+- **Vite Dev HMR**: [http://localhost:5173](http://localhost:5173)
+- Changes in your local directory are hot-mounted directly into the container using volumes.
+
+---
+
+## ⚙️ Environment Variables
+
+The project configuration is managed entirely through the `.env` file. Key environment variables used by the application include:
+
+| Variable | Default Value | Description |
+| :--- | :--- | :--- |
+| `APP_NAME` | `Laravel` | Name of the application. |
+| `APP_ENV` | `local` | Current environment (`local`, `production`, `testing`). |
+| `APP_KEY` | *(Generated on setup)* | The 32-character application key used for encryption. |
+| `APP_DEBUG` | `true` | Enables or disables debug mode with descriptive error pages. |
+| `APP_URL` | `http://localhost` | The base URL of your application. |
+| `DB_CONNECTION` | `sqlite` | The database connection driver. |
+| `QUEUE_CONNECTION` | `database` | Driver for running background jobs and queues. |
+| `SESSION_DRIVER` | `database` | Driver for storing session data. |
+
+---
+
+## 🔒 Security Auditing Notes
+
+> [!NOTE]
+> During codebase static analysis, security scanners may report warnings regarding "Possible hardcoded passwords" in the following files:
+> - `vendor\laravel\framework\src\Illuminate\Database\Console\DbCommand.php`
+> - `vendor\laravel\framework\src\Illuminate\Database\Schema\MySqlSchemaState.php`
+>
+> **These are safe to ignore.** They are standard utility components inside the third-party Laravel framework core codebase (managed by Composer under the `vendor/` directory) that check for DB credentials dynamically or implement standard parameters, not actual hardcoded credentials. Never manually edit files in the `vendor/` folder as modifications will be overwritten upon package updates.

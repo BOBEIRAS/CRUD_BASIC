@@ -4,10 +4,7 @@
     <div class="mb-8">
         <a href="{{ route('contactos.index') }}"
             class="btn btn-ghost btn-sm gap-1 hover:bg-base-200/50 mb-3 pl-1 font-semibold">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                stroke="currentColor" class="w-4 h-4">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-            </svg>
+            <x-icon.seta-esquerda />
             Voltar para a Lista
         </a>
         <h1 class="text-3xl font-extrabold tracking-tight text-base-content">Editar Contacto</h1>
@@ -120,10 +117,7 @@
                 <div class="flex items-center justify-end gap-3 mt-8 pt-6 border-t border-base-200">
                     <a href="{{ route('contactos.index') }}" class="btn btn-ghost rounded-xl">Cancelar</a>
                     <button type="submit" class="btn btn-primary rounded-xl shadow-md gap-1.5 px-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                            stroke="currentColor" class="w-4.5 h-4.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                        </svg>
+                        <x-icon.visto />
                         Salvar Alterações
                     </button>
                 </div>

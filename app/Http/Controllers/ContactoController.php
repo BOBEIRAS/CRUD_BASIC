@@ -18,47 +18,51 @@ class ContactoController extends Controller
         return view('contacto.create');
     }
 
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'nome' => 'required|string|max:255',
+        'alcunha' => 'nullable|string|max:255',
+        'telemovel' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:contactos,email',
+        'localidade' => 'required|string|max:255',
+        'observacoes' => 'nullable|string',
+    ], [
+        'nome.required' => 'O nome é obrigatório.',
+        'telemovel.required' => 'O número de telemóvel é obrigatório.',
+        'email.required' => 'O email é obrigatório.',
+        'email.email' => 'Insere um email válido.',
+        'email.unique' => 'Este email já existe.',
+        'localidade.required' => 'A localidade é obrigatória.',
+    ]);
 
-    public function store(Request $request)
+    Contacto::create($validated);
+
+    return redirect()
+        ->route('contactos.index')
+        ->with('success', 'Contacto criado com sucesso!');
+}
+
+
+    public function show(Contacto $contacto)
     {
-        $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'alcunha' => 'nullable|string|max:255',
-            'telemovel' => 'required|string|max:20',
-            'email' => 'required|email|max:255',
-            'localidade' => 'required|string|max:255',
-            'observacoes' => 'nullable|string',
-        ]);
-
-        Contacto::create($validated);
-
-        return redirect()->route('contactos.index')->with('success', 'Contacto criado com sucesso!');
-    }
-
-
-    public function show(string $id)
-    {
-        $contacto = Contacto::findOrFail($id);
         return view('contacto.show', compact('contacto'));
     }
 
 
-    public function edit(string $id)
+    public function edit(Contacto $contacto)
     {
-        $contacto = Contacto::findOrFail($id);
         return view('contacto.edit', compact('contacto'));
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Contacto $contacto)
     {
-        $contacto = Contacto::findOrFail($id);
-
         $validated = $request->validate([
             'nome' => 'required|string|max:255',
             'alcunha' => 'nullable|string|max:255',
             'telemovel' => 'required|string|max:20',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|max:255|unique:contactos,email,' . $contacto->id,
             'localidade' => 'required|string|max:255',
             'observacoes' => 'nullable|string',
         ]);
@@ -68,9 +72,8 @@ class ContactoController extends Controller
         return redirect()->route('contactos.index')->with('success', 'Contacto atualizado com sucesso!');
     }
 
-    public function destroy(string $id)
+    public function destroy(Contacto $contacto)
     {
-        $contacto = Contacto::findOrFail($id);
         $contacto->delete();
 
         return redirect()->route('contactos.index')->with('success', 'Contacto excluído com sucesso!');

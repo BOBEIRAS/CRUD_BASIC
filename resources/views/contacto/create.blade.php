@@ -13,7 +13,7 @@
 
     <div class="card bg-base-100 shadow-xl border border-base-200 rounded-2xl max-w-2xl mx-auto">
         <div class="card-body p-6 md:p-8">
-            <form action="{{ route('contactos.store') }}" method="POST">
+            <form action="{{ route('contactos.store') }}" method="POST" novalidate>
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -24,21 +24,20 @@
                                     class="text-error">*</span></span>
                         </label>
                         <input type="text" name="nome" value="{{ old('nome') }}" placeholder="Ex: João Silva"
-                            class="input input-bordered input-md w-full focus:input-primary rounded-xl @error('nome') input-error @enderror"
+                            class="input input-bordered input-md w-full rounded-xl {{ $errors->has('nome') ? 'input-error border-red-500 focus:border-red-500 focus:outline-red-500' : 'focus:input-primary' }}"
                             required />
                         @error('nome')
                             <label class="label py-1"><span
                                     class="label-text-alt text-error font-medium">{{ $message }}</span></label>
                         @enderror
                     </div>
-
                     <!-- Alcunha -->
                     <div class="form-control w-full col-span-1">
                         <label class="label pt-0 pb-1">
                             <span class="label-text font-bold text-base-content/85">Alcunha / Nome Curto</span>
                         </label>
                         <input type="text" name="alcunha" value="{{ old('alcunha') }}" placeholder="Ex: Silva"
-                            class="input input-bordered input-md w-full focus:input-primary rounded-xl @error('alcunha') input-error @enderror" />
+                            class="input input-bordered input-md w-full rounded-xl {{ $errors->has('alcunha') ? 'input-error border-red-500 focus:border-red-500 focus:outline-red-500' : 'focus:input-primary' }}" />
                         @error('alcunha')
                             <label class="label py-1"><span
                                     class="label-text-alt text-error font-medium">{{ $message }}</span></label>
@@ -52,7 +51,7 @@
                                     class="text-error">*</span></span>
                         </label>
                         <input type="tel" name="telemovel" value="{{ old('telemovel') }}" placeholder="Ex: 912345678"
-                            class="input input-bordered input-md w-full focus:input-primary rounded-xl @error('telemovel') input-error @enderror"
+                            class="input input-bordered input-md w-full rounded-xl {{ $errors->has('telemovel') ? 'input-error border-red-500 focus:border-red-500 focus:outline-red-500' : 'focus:input-primary' }}"
                             required />
                         @error('telemovel')
                             <label class="label py-1"><span
@@ -68,7 +67,7 @@
                         </label>
                         <input type="email" name="email" value="{{ old('email') }}"
                             placeholder="Ex: joaosilva@email.com"
-                            class="input input-bordered input-md w-full focus:input-primary rounded-xl @error('email') input-error @enderror"
+                            class="input input-bordered input-md w-full rounded-xl {{ $errors->has('email') ? 'input-error border-red-500 focus:border-red-500 focus:outline-red-500' : 'focus:input-primary' }}"
                             required />
                         @error('email')
                             <label class="label py-1"><span
@@ -83,7 +82,7 @@
                                     class="text-error">*</span></span>
                         </label>
                         <input type="text" name="localidade" value="{{ old('localidade') }}" placeholder="Ex: Lisboa"
-                            class="input input-bordered input-md w-full focus:input-primary rounded-xl @error('localidade') input-error @enderror"
+                            class="input input-bordered input-md w-full rounded-xl {{ $errors->has('localidade') ? 'input-error border-red-500 focus:border-red-500 focus:outline-red-500' : 'focus:input-primary' }}"
                             required />
                         @error('localidade')
                             <label class="label py-1"><span
@@ -98,7 +97,7 @@
                                 Adicionais</span>
                         </label>
                         <textarea name="observacoes" placeholder="Adiciona observações ou notas sobre o contacto..."
-                            class="textarea textarea-bordered h-28 w-full focus:textarea-primary rounded-xl @error('observacoes') textarea-error @enderror">{{ old('observacoes') }}</textarea>
+                            class="textarea textarea-bordered h-28 w-full rounded-xl {{ $errors->has('observacoes') ? 'textarea-error border-red-500 focus:border-red-500 focus:outline-red-500' : 'focus:textarea-primary' }}">{{ old('observacoes') }}</textarea>
                         @error('observacoes')
                             <label class="label py-1"><span
                                     class="label-text-alt text-error font-medium">{{ $message }}</span></label>

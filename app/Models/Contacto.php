@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 class Contacto extends Model
 {
     protected $fillable = [
@@ -11,7 +13,12 @@ class Contacto extends Model
         'alcunha',
         'telemovel',
         'email',
-        'localidade',
+        'localidade_id',
         'observacoes',
     ];
+
+    public function localidade(): BelongsTo
+    {
+        return $this->belongsTo(Localidade::class);
+    }
 }

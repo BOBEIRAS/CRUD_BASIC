@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contactos', function (Blueprint $table) {
+        Schema::create('localidades', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->string('alcunha')->nullable();
-            $table->string('telemovel');
-            $table->string('email');
-            $table->foreignId('localidade_id')->constrained('localidades')->onDelete('cascade');
-            $table->text('observacoes')->nullable();
+            $table->string('localidade');
             $table->timestamps();
         });
     }
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contactos');
+        Schema::dropIfExists('localidades');
     }
 };

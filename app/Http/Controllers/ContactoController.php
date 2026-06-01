@@ -3,19 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contacto;
+use App\Models\Localidade;
 use Illuminate\Http\Request;
 
 class ContactoController extends Controller
 {
     public function index()
     {
-        $contactos = Contacto::orderBy('nome', 'asc')->get();
+        $contactos = Contacto::with('localidade')
+        ->orderBy('nome', 'asc')
+        ->get()
+        ->with('localidade', 'localidade->localidade');
         return view('contacto.index', compact('contactos'));
     }
 
     public function create()
     {
-        return view('contacto.create');
+        $localidades = Localidade::orderBy('localidade', 'asc')->get();
+        return view('contacto.create', compact('localidades'));
     }
 
 public function store(Request $request)
@@ -25,7 +30,7 @@ public function store(Request $request)
         'alcunha' => 'nullable|string|max:255',
         'telemovel' => 'required|string|max:255',
         'email' => 'required|email|max:255|unique:contactos,email',
-        'localidade' => 'required|string|max:255',
+        'localidade_id' => 'required|exists:localidades,id',
         'observacoes' => 'nullable|string',
     ], [
         'nome.required' => 'O nome é obrigatório.',
@@ -33,7 +38,8 @@ public function store(Request $request)
         'email.required' => 'O email é obrigatório.',
         'email.email' => 'Insere um email válido.',
         'email.unique' => 'Este email já existe.',
-        'localidade.required' => 'A localidade é obrigatória.',
+        'localidade_id.required' => 'A localidade é obrigatória.',
+        'localidade_id.exists' => 'A localidade selecionada é inválida.',
     ]);
 
     Contacto::create($validated);
@@ -52,7 +58,8 @@ public function store(Request $request)
 
     public function edit(Contacto $contacto)
     {
-        return view('contacto.edit', compact('contacto'));
+        $localidades = Localidade::orderBy('localidade', 'asc')->get();
+        return view('contacto.edit', compact('contacto', 'localidades'));
     }
 
 
@@ -63,7 +70,7 @@ public function store(Request $request)
             'alcunha' => 'nullable|string|max:255',
             'telemovel' => 'required|string|max:20',
             'email' => 'required|email|max:255|unique:contactos,email,' . $contacto->id,
-            'localidade' => 'required|string|max:255',
+            'localidade_id' => 'required|exists:localidades,id',
             'observacoes' => 'nullable|string',
         ]);
 

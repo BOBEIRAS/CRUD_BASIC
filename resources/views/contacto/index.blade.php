@@ -52,7 +52,7 @@
                                     <a href="mailto:{{ $contacto->email }}"
                                         class="link link-hover text-base-content/70">{{ $contacto->email }}</a>
                                 </td>
-                                <td class="text-sm text-base-content/60">{{ $contacto->localidade }}</td>
+                                <td class="text-sm text-base-content/60">{{ $contacto->localidade?->localidade }}</td>
                                 <td class="pr-5">
                                     <div class="flex items-center justify-end gap-1">
                                         <a href="{{ route('contactos.show', $contacto->id) }}"

@@ -88,11 +88,17 @@
                             <span class="label-text font-bold text-base-content/85">Localidade / Cidade <span
                                     class="text-error">*</span></span>
                         </label>
-                        <input type="text" name="localidade" value="{{ old('localidade', $contacto->localidade) }}"
-                            placeholder="Ex: Lisboa"
-                            class="input input-bordered input-md w-full rounded-xl {{ $errors->has('localidade') ? 'input-error border-red-500 focus:border-red-500 focus:outline-red-500' : 'focus:input-primary' }}"
-                            required />
-                        @error('localidade')
+                        <select name="localidade_id"
+                            class="select select-bordered select-md w-full rounded-xl {{ $errors->has('localidade_id') ? 'select-error border-red-500 focus:border-red-500 focus:outline-red-500' : 'focus:select-primary' }}"
+                            required>
+                            <option value="" disabled>Selecione uma localidade...</option>
+                            @foreach($localidades as $localidade)
+                                <option value="{{ $localidade->id }}" {{ old('localidade_id', $contacto->localidade_id) == $localidade->id ? 'selected' : '' }}>
+                                    {{ $localidade->localidade }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('localidade_id')
                             <label class="label py-1"><span
                                     class="label-text-alt text-error font-medium">{{ $message }}</span></label>
                         @enderror

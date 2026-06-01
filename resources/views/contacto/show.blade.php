@@ -63,7 +63,7 @@
 
                 <div>
                     <div class="text-xs text-base-content/40 uppercase tracking-wider font-semibold mb-1">Localidade</div>
-                    <span class="text-base font-semibold text-base-content">{{ $contacto->localidade }}</span>
+                    <span class="text-base font-semibold text-base-content">{{ $contacto->localidade?->localidade }}</span>
                 </div>
 
                 <div>

@@ -81,21 +81,47 @@
                             <span class="label-text font-bold text-base-content/85">Localidade / Cidade <span
                                     class="text-error">*</span></span>
                         </label>
-                        <select name="localidade"
-                            class="select select-bordered select-md w-full rounded-xl {{ $errors->has('localidade') ? 'select-error border-red-500 focus:border-red-500 focus:outline-red-500' : 'focus:select-primary' }}"
+                        <select name="localidade_id"
+                            class="select select-bordered select-md w-full rounded-xl {{ $errors->has('localidade_id') ? 'select-error border-red-500 focus:border-red-500 focus:outline-red-500' : 'focus:select-primary' }}"
                             required>
-                            <option value="" disabled {{ old('localidade') ? '' : 'selected' }}>Selecione uma localidade...</option>
+                            <option value="" disabled {{ old('localidade_id') ? '' : 'selected' }}>Selecione uma localidade...</option>
                             @foreach($localidades as $localidade)
-                                <option value="{{ $localidade->nome }}" {{ old('localidade') == $localidade->nome ? 'selected' : '' }}>
-                                    {{ $localidade->nome }}
+                                <option value="{{ $localidade->id }}" {{ old('localidade_id') == $localidade->id ? 'selected' : '' }}>
+                                    {{ $localidade->localidade }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('localidade')
+                        @error('localidade_id')
                             <label class="label py-1"><span
                                     class="label-text-alt text-error font-medium">{{ $message }}</span></label>
                         @enderror
                     </div>
+
+
+                    {{-- Grupos --}}
+                    @if($grupos->count() > 0)
+                    <div class="form-control w-full col-span-1 md:col-span-2">
+                        <label class="label pt-0 pb-1">
+                            <span class="label-text font-bold text-base-content/85">Grupos</span>
+                        </label>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach($grupos as $grupo)
+                                @php $checked = in_array($grupo->id, old('grupos', [])); @endphp
+                                <label class="flex items-center gap-2 cursor-pointer px-3 py-1.5 rounded-xl border
+                                    {{ $checked ? 'bg-primary/10 border-primary text-primary font-semibold' : 'bg-base-200 border-base-300 text-base-content/60' }}
+                                    hover:border-primary hover:text-primary transition-all">
+                                    <input type="checkbox" name="grupos[]" value="{{ $grupo->id }}"
+                                        class="checkbox checkbox-primary checkbox-xs"
+                                        {{ $checked ? 'checked' : '' }} />
+                                    {{ $grupo->grupo }}
+                                </label>
+                            @endforeach
+                        </div>
+                        @error('grupos')
+                            <label class="label py-1"><span class="label-text-alt text-error font-medium">{{ $message }}</span></label>
+                        @enderror
+                    </div>
+                    @endif
 
 
                     <div class="form-control w-full col-span-1 md:col-span-2">

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('alcunha')->nullable();
             $table->string('telemovel');
             $table->string('email');
-            $table->foreignId('localidade_id')->constrained('localidades')->onDelete('cascade');
+            $table->foreignId('lo5calidade_id')->constrained('localidades')->onDelete('cascade');
             $table->text('observacoes')->nullable();
             $table->timestamps();
         });

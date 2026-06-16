@@ -27,14 +27,22 @@
                     <span>Agenda<span class="text-primary font-black">Contactos</span></span>
                 </a>
             </div>
+            <a href="{{ route('contactos.create') }}" class="btn btn-primary btn-sm gap-1.5 rounded-lg shadow-sm">
+                    <x-icon.mais />
+                    Novo Contato
+                </a>
             <div class="flex-none gap-2">
                 <a href="{{ route('contactos.index') }}" class="btn btn-ghost btn-sm gap-1.5 font-semibold rounded-lg">
                     <x-icon.lista />
                     Lista
                 </a>
-                <a href="{{ route('contactos.create') }}" class="btn btn-primary btn-sm gap-1.5 rounded-lg shadow-sm">
-                    <x-icon.mais />
-                    Novo Contato
+                <a href="{{ route('localidades.index') }}" class="btn btn-ghost btn-sm gap-1.5 font-semibold rounded-lg">
+                    <x-icon.lista/>
+                    Localidades
+                </a>
+                <a href="{{ route('grupos.index') }}" class="btn btn-ghost btn-sm gap-1.5 font-semibold rounded-lg">
+                    <x-icon.lista/>
+                    Grupos
                 </a>
             </div>
         </div>

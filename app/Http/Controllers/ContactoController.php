@@ -4,23 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Contacto;
 use App\Models\Localidade;
+use App\Models\Grupo;
 use Illuminate\Http\Request;
 
 class ContactoController extends Controller
 {
     public function index()
     {
-        $contactos = Contacto::with('localidade')
-        ->orderBy('nome', 'asc')
-        ->get()
-        ->with('localidade', 'localidade->localidade');
+        $contactos = Contacto::with('localidade')->orderBy('nome', 'asc')->get();
         return view('contacto.index', compact('contactos'));
     }
 
     public function create()
     {
         $localidades = Localidade::orderBy('localidade', 'asc')->get();
-        return view('contacto.create', compact('localidades'));
+        $grupos = Grupo::orderBy('grupo', 'asc')->get();
+        return view('contacto.create', compact('localidades', 'grupos'));
     }
 
 public function store(Request $request)
@@ -31,6 +30,8 @@ public function store(Request $request)
         'telemovel' => 'required|string|max:255',
         'email' => 'required|email|max:255|unique:contactos,email',
         'localidade_id' => 'required|exists:localidades,id',
+        'grupos' => 'nullable|array',
+        'grupos.*' => 'exists:grupos,id',
         'observacoes' => 'nullable|string',
     ], [
         'nome.required' => 'O nome é obrigatório.',
@@ -42,7 +43,8 @@ public function store(Request $request)
         'localidade_id.exists' => 'A localidade selecionada é inválida.',
     ]);
 
-    Contacto::create($validated);
+    $contacto = Contacto::create($validated);
+    $contacto->grupos()->sync($validated['grupos'] ?? []);
 
     return redirect()
         ->route('contactos.index')

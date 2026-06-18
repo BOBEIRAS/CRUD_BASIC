@@ -47,6 +47,11 @@
                                 </td>
                                 <td class="pr-5">
                                     <div class="flex items-center justify-end gap-1">
+                                        <a href="{{ route('grupos.show', $grupo->id) }}"
+                                            class="btn btn-ghost btn-xs btn-circle text-base-content/40 hover:text-info"
+                                            title="Ver">
+                                            <x-icon.olho />
+                                        </a>
                                         <a href="{{ route('grupos.edit', $grupo->id) }}"
                                             class="btn btn-ghost btn-xs btn-circle text-base-content/40 hover:text-warning"
                                             title="Editar">

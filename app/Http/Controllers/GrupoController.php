@@ -13,6 +13,12 @@ class GrupoController extends Controller
         return view('grupo.index', compact('grupos'));
     }
 
+    public function show(Grupo $grupo)
+    {
+        $grupo->load(['contactos.localidade']);
+        return view('grupo.show', compact('grupo'));
+    }
+
     public function create()
     {
         return view('grupo.create');

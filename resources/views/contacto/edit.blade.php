@@ -20,7 +20,6 @@
                 @method('PUT')
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Nome -->
                     <div class="form-control w-full col-span-1">
                         <label class="label pt-0 pb-1">
                             <span class="label-text font-bold text-base-content/85">Nome Completo <span
@@ -36,7 +35,6 @@
                         @enderror
                     </div>
 
-                    <!-- Alcunha -->
                     <div class="form-control w-full col-span-1">
                         <label class="label pt-0 pb-1">
                             <span class="label-text font-bold text-base-content/85">Alcunha / Nome Curto</span>
@@ -50,7 +48,6 @@
                         @enderror
                     </div>
 
-                    <!-- Telemóvel -->
                     <div class="form-control w-full col-span-1">
                         <label class="label pt-0 pb-1">
                             <span class="label-text font-bold text-base-content/85">Número de Telemóvel <span
@@ -81,8 +78,6 @@
                                     class="label-text-alt text-error font-medium">{{ $message }}</span></label>
                         @enderror
                     </div>
-
-                    <!-- Localidade -->
                     <div class="form-control w-full col-span-1 md:col-span-2">
                         <label class="label pt-0 pb-1">
                             <span class="label-text font-bold text-base-content/85">Localidade / Cidade <span
@@ -104,7 +99,26 @@
                         @enderror
                     </div>
 
-                    <!-- Observações -->
+                    {{-- Grupos --}}
+                    @if($grupos->count() > 0)
+                    <div class="form-control w-full col-span-1 md:col-span-2">
+                        <fieldset class="fieldset">
+                            <legend class="fieldset-legend">Qual o grupo?</legend>
+                            <select class="select w-full px-3 py-2 border rounded-lg" name="grupos[]" id="grupos" multiple>
+                                @foreach($grupos as $grupo)
+                                    <option value="{{ $grupo->id }}"
+                                        {{ in_array($grupo->id, old('grupos', $contacto->grupos->pluck('id')->toArray())) ? 'selected' : '' }}>
+                                        {{ $grupo->grupo }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('grupos')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </fieldset>
+                    </div>
+                    @endif
+
                     <div class="form-control w-full col-span-1 md:col-span-2">
                         <label class="label pt-0 pb-1">
                             <span class="label-text font-bold text-base-content/85">Observações / Notas

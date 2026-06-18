@@ -9,10 +9,17 @@ use Illuminate\Http\Request;
 
 class ContactoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('search', '');
+        
+        $grupos= Grupo::where('grupo','like','%'.$search.'%')
+        ->orderBy('grupo','asc')
+        ->with('contactos')
+        ->get();
+        
         $contactos = Contacto::with('localidade')->orderBy('nome', 'asc')->get();
-        return view('contacto.index', compact('contactos'));
+        return view('contacto.index', compact('grupos','contactos'));
     }
 
     public function create()
@@ -60,8 +67,9 @@ public function store(Request $request)
 
     public function edit(Contacto $contacto)
     {
+        $grupos = Grupo::orderBy('grupo', 'asc')->get();
         $localidades = Localidade::orderBy('localidade', 'asc')->get();
-        return view('contacto.edit', compact('contacto', 'localidades'));
+        return view('contacto.edit', compact('contacto', 'localidades', 'grupos'));
     }
 
 
@@ -74,15 +82,21 @@ public function store(Request $request)
             'email' => 'required|email|max:255|unique:contactos,email,' . $contacto->id,
             'localidade_id' => 'required|exists:localidades,id',
             'observacoes' => 'nullable|string',
-        ]);
+            'grupos' => 'nullable|array',
+            'grupos.*' => 'exists:grupos,id',
+        ], [
+        'grupos.exists' => 'O grupo selecionado é inválido.',
+    ]);
 
         $contacto->update($validated);
+        $contacto->grupos()->sync($validated['grupos'] ?? []);
 
         return redirect()->route('contactos.index')->with('success', 'Contacto atualizado com sucesso!');
     }
 
     public function destroy(Contacto $contacto)
     {
+        $contacto->grupos()->sync([]);
         $contacto->delete();
 
         return redirect()->route('contactos.index')->with('success', 'Contacto excluído com sucesso!');

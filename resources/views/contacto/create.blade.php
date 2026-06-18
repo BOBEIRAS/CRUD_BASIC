@@ -13,7 +13,7 @@
 
     <div class="card bg-base-100 shadow-xl border border-base-200 rounded-2xl max-w-2xl mx-auto">
         <div class="card-body p-6 md:p-8">
-            <form action="{{ route('contactos.store') }}" method="POST" novalidate>
+            <form action="{{ route('contactos.store') }}" method="POST" enctype="multipart/form-data" novalidate>
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -101,27 +101,33 @@
                     {{-- Grupos --}}
                     @if($grupos->count() > 0)
                     <div class="form-control w-full col-span-1 md:col-span-2">
-                        <label class="label pt-0 pb-1">
-                            <span class="label-text font-bold text-base-content/85">Grupos</span>
-                        </label>
-                        <div class="flex flex-wrap gap-2">
-                            @foreach($grupos as $grupo)
-                                @php $checked = in_array($grupo->id, old('grupos', [])); @endphp
-                                <label class="flex items-center gap-2 cursor-pointer px-3 py-1.5 rounded-xl border
-                                    {{ $checked ? 'bg-primary/10 border-primary text-primary font-semibold' : 'bg-base-200 border-base-300 text-base-content/60' }}
-                                    hover:border-primary hover:text-primary transition-all">
-                                    <input type="checkbox" name="grupos[]" value="{{ $grupo->id }}"
-                                        class="checkbox checkbox-primary checkbox-xs"
-                                        {{ $checked ? 'checked' : '' }} />
-                                    {{ $grupo->grupo }}
-                                </label>
-                            @endforeach
-                        </div>
-                        @error('grupos')
-                            <label class="label py-1"><span class="label-text-alt text-error font-medium">{{ $message }}</span></label>
-                        @enderror
+                        <fieldset class="fieldset">
+                            <legend class="fieldset-legend">Qual o grupo?</legend>
+                            <select class="select w-full px-3 py-2 border rounded-lg" name="grupos[]" id="grupos" multiple>
+                                @foreach($grupos as $grupo)
+                                    <option value="{{ $grupo->id }}"
+                                        {{ in_array($grupo->id, old('grupos', [])) ? 'selected' : '' }}>
+                                        {{ $grupo->grupo }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('grupos')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </fieldset>
                     </div>
                     @endif
+
+                    <div class="form-control w-full col-span-1 md:col-span-2">
+                        <label class="label pt-0 pb-1">
+                            <span class="label-text font-bold text-base-content/85">Imagem do Contacto</span>
+                        </label>
+                        <input type="file" name="imagem" accept="image/*" class="file-input file-input-bordered file-input-md w-full rounded-xl" />
+                        @error('imagem')
+                            <label class="label py-1"><span
+                                    class="label-text-alt text-error font-medium">{{ $message }}</span></label>
+                        @enderror
+                    </div>
 
 
                     <div class="form-control w-full col-span-1 md:col-span-2">
